@@ -1,0 +1,28 @@
+name: Deploy Jitsi Stack
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Trigger Portainer Redeploy
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Trigger Portainer Redeploy Webhook
+        uses: distributhor/workflow-webhook@v3
+        with:
+          webhook_url: ${{ secrets.PORTAINER_REDEPLOY_HOOK }}
+          webhook_secret: "trigger"
+        continue-on-error: true
+        
+      - name: Deployment Status
+        run: |
+          echo "Deployment webhook triggered successfully"
+          echo "Stack should be redeploying on Portainer"

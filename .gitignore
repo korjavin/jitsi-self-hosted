@@ -1,0 +1,26 @@
+# Environment files with sensitive data
+.env
+.env.bak
+
+# Configuration directories (contains runtime configs and possibly secrets)
+config/
+~/.jitsi-meet-cfg/
+
+# Logs
+*.log
+
+# Docker volumes
+volumes/
+
+# Portainer data
+portainer_data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
