@@ -56,20 +56,15 @@ cp .env.example .env
 
 ### 2. Configure Environment
 
-Edit `.env` file with your settings:
+Edit `.env` file with your settings. At a minimum, you must set `JITSI_DOMAIN` and `DOCKER_HOST_ADDRESS`.
 
 ```bash
-# Required: Your domain configuration
-JITSI_DOMAIN=yourdomain.com
+# Required: Your domain and server IP
+JITSI_DOMAIN=jitsi.yourdomain.com
 DOCKER_HOST_ADDRESS=your.server.public.ip
 
 # Network configuration (adjust if needed)
 NETWORK_NAME=jitsi-network
-NETWORK_EXTERNAL=true
-
-# Optional: Customize ports
-JVB_PORT=10000
-JVB_TCP_PORT=4443
 ```
 
 ### 3. Generate Secure Passwords
@@ -138,11 +133,11 @@ labels:
 
 ### Security Features
 
-- Auto-generated secure passwords for internal services
-- Secrets stored in `.env` (git-ignored)
-- Optional authentication system
-- Guest access configurable
-- SSL/TLS via Traefik certificate resolver
+- **Secure by Default**: Auto-generated secure passwords for internal services.
+- **Secret Management**: Secrets are stored in the `.env` file and should never be committed to version control (`.gitignore` is pre-configured to prevent this).
+- **Authentication**: By default, the Jitsi instance is open to the public. For private or corporate use, you should enable authentication (see "Authentication Setup" below).
+- **Guest Access**: Can be configured to allow or deny anonymous users.
+- **SSL/TLS**: Traefik automatically provisions and renews SSL certificates.
 
 ## 🚀 GitOps Deployment
 
@@ -294,10 +289,10 @@ ENABLE_AUTH=1
 AUTH_TYPE=internal
 ```
 
-Then create users via Prosody container:
+Then create users via the Prosody container. Replace `user` with the desired username, `yourdomain.com` with your `JITSI_DOMAIN`, and `password` with a strong password.
 
 ```bash
-docker-compose exec prosody prosodyctl --config /config/prosody.cfg.lua register user meet.jitsi password
+docker-compose exec prosody prosodyctl --config /config/prosody.cfg.lua register user yourdomain.com password
 ```
 
 ### Recording Setup
